@@ -39,15 +39,19 @@ dependencyResolutionManagement {
 }
 ```
 
-### Step 2 — Add the three dependencies to your app's `build.gradle.kts`
+### Step 2 — Add ONE dependency to your app's `build.gradle.kts`
 
 ```kotlin
 dependencies {
-    implementation("com.github.sengleaph.liquidglass:liquidglass-core:0.1.0")
-    implementation("com.github.sengleaph.liquidglass:liquidglass-theme:0.1.0")
-    implementation("com.github.sengleaph.liquidglass:liquidglass-components:0.1.0")
+    implementation("com.github.sengleaph.liquidglass:liquidglass:0.1.0")
 }
 ```
+
+That single line pulls in `:liquidglass-core`, `:liquidglass-theme`, and `:liquidglass-components`
+transitively — you get every `Glass*` component, every preset, and every animation modifier.
+
+> **Want only part of the library?** You can still pull individual modules instead. See
+> [Granular install](#granular-install-optional) at the bottom.
 
 ### Step 3 — Sync Gradle
 
@@ -270,10 +274,12 @@ real-time style tuner, and a nested `GlassTheme(Neon)` override:
 
 ## Modules
 
-The library is split into three artifacts so consumers can pull only what they need:
+The library is split into four artifacts so consumers can either pull everything in one shot
+*or* cherry-pick:
 
 | Module | Purpose |
 | --- | --- |
+| **`:liquidglass`** | **Umbrella — pulls in all three modules below. Use this 99% of the time.** |
 | `:liquidglass-core` | Pure data: `GlassStyle`, `GlassStyles` presets |
 | `:liquidglass-theme` | `GlassTheme`, `LiquidRoot`, `LocalGlassStyle`, `LocalLiquidState` |
 | `:liquidglass-components` | All `Glass*` components and the optional animation modifiers |
@@ -281,9 +287,28 @@ The library is split into three artifacts so consumers can pull only what they n
 Dependency direction (always downward, never upward):
 
 ```
-:sample ─▶ :liquidglass-components ─▶ :liquidglass-theme ─▶ :liquidglass-core
-                       │                       │
-                       └───────────────────────┴──▶ io.github.fletchmckee.liquid
+                         ┌──▶ :liquidglass-core
+:sample ─▶ :liquidglass ─┼──▶ :liquidglass-theme ──▶ :liquidglass-core
+                         └──▶ :liquidglass-components ─▶ :liquidglass-theme + :liquidglass-core
+                                          │
+                                          └──▶ io.github.fletchmckee.liquid
+```
+
+### Granular install (optional)
+
+If you only need styles and theming, skip the umbrella and depend on individual modules:
+
+```kotlin
+dependencies {
+    // Just data classes + presets:
+    implementation("com.github.sengleaph.liquidglass:liquidglass-core:0.1.0")
+
+    // Add theming + LiquidRoot:
+    implementation("com.github.sengleaph.liquidglass:liquidglass-theme:0.1.0")
+
+    // Add all Glass* components + animation modifiers:
+    implementation("com.github.sengleaph.liquidglass:liquidglass-components:0.1.0")
+}
 ```
 
 ---
