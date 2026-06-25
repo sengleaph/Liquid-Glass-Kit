@@ -1,15 +1,6 @@
 # LiquidGlassKit
 
-[![](https://jitpack.io/v/sengleaph/liquidglass.svg)](https://jitpack.io/#sengleaph/liquidglass)
-[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![min SDK 24](https://img.shields.io/badge/minSdk-24-brightgreen.svg)](https://developer.android.com/about/versions/nougat)
-
 **Apple-inspired Liquid Glass UI components for Jetpack Compose.**
-
-LiquidGlassKit gives you `GlassCard`, `GlassButton`, `GlassDialog`, `GlassNavigationBar` and
-friends — every component renders as refractive glass with frost, tint and rim lighting.
-It wraps the GPU-shader work in [`io.github.fletchmckee.liquid`](https://github.com/FletchMcKee/liquid)
-behind a small, theme-aware API so you never touch the low-level DSL.
 
 ```kotlin
 GlassTheme(style = GlassStyles.Liquid) {
@@ -25,43 +16,36 @@ GlassTheme(style = GlassStyles.Liquid) {
 
 ---
 
-## Install
+## Modules
 
-### Step 1 — Add JitPack to your project's `settings.gradle.kts`
+| Module | Purpose |
+| --- | --- |
+| `:liquidglass-core` | Pure data: `GlassStyle`, `GlassStyles` presets |
+| `:liquidglass-theme` | `GlassTheme`, `LiquidRoot`, `LocalGlassStyle`, `LocalLiquidState` |
+| `:liquidglass-components` | All `Glass*` components and the optional animation modifiers |
+| `:sample` | Showcase app — exercises every component over a vivid backdrop |
 
-```kotlin
-dependencyResolutionManagement {
-    repositories {
-        google()
-        mavenCentral()
-        maven { url = uri("https://jitpack.io") }   // ← add this line
-    }
-}
+Dependency direction (always downward, never upward):
+
+```
+:sample ─▶ :liquidglass-components ─▶ :liquidglass-theme ─▶ :liquidglass-core
+                       │                       │
+                       └───────────────────────┴──▶ io.github.fletchmckee.liquid
 ```
 
-### Step 2 — Add ONE dependency to your app's `build.gradle.kts`
+To use it from another module in this project:
 
 ```kotlin
 dependencies {
-    implementation("com.github.sengleaph.liquidglass:liquidglass:0.1.0")
+    implementation(project(":liquidglass-core"))
+    implementation(project(":liquidglass-theme"))
+    implementation(project(":liquidglass-components"))
 }
 ```
 
-That single line pulls in `:liquidglass-core`, `:liquidglass-theme`, and `:liquidglass-components`
-transitively — you get every `Glass*` component, every preset, and every animation modifier.
-
-> **Want only part of the library?** You can still pull individual modules instead. See
-> [Granular install](#granular-install-optional) at the bottom.
-
-### Step 3 — Sync Gradle
-
-Click **Sync Now**. First sync takes 1–3 minutes (JitPack is building the library); every sync after is instant.
-
 ---
 
-## Tutorial — your first Liquid Glass screen in 3 minutes
-
-This walks you through building the screen at the top of the README from scratch.
+## Tutorial — your first Liquid Glass screen
 
 ### 1. Wrap your screen in `LiquidRoot`
 
@@ -85,7 +69,7 @@ setContent {
 
 ### 2. Give it a backdrop worth refracting
 
-Glass needs something colorful behind it to look like glass. A gradient is the easiest:
+Glass needs something colorful behind it. A gradient is the easiest:
 
 ```kotlin
 LiquidRoot(
@@ -102,9 +86,6 @@ LiquidRoot(
     }
 ) { /* content next */ }
 ```
-
-You can put anything here — a photo, an animated `Canvas`, a `LazyColumn` of cards. The glass
-will refract all of it.
 
 ### 3. Pick a style with `GlassTheme`
 
@@ -144,8 +125,6 @@ GlassTheme(style = GlassStyles.Liquid) {
     }
 }
 ```
-
-That's the whole tutorial. Run it on an Android 13+ device and you'll see live Liquid Glass.
 
 ---
 
@@ -256,8 +235,8 @@ degrades — your code keeps working, the visuals get simpler:
 | **API 32 (Android 12)** | Frost + tint + edge only (no refraction / curve / dispersion) |
 | **API ≤ 30 (Android 11)** | Tint + edge only (frost also disabled) |
 
-If your card looks like a flat tinted rectangle, you're almost certainly on a device below API
-33. Test on a Pixel 7 / Android 13+ emulator.
+If a card looks like a flat tinted rectangle, you're almost certainly on a device below API 33.
+Test on a Pixel 7 / Android 13+ emulator.
 
 ---
 
@@ -269,59 +248,6 @@ real-time style tuner, and a nested `GlassTheme(Neon)` override:
 ```powershell
 .\gradlew :sample:installDebug
 ```
-
----
-
-## Modules
-
-The library is split into four artifacts so consumers can either pull everything in one shot
-*or* cherry-pick:
-
-| Module | Purpose |
-| --- | --- |
-| **`:liquidglass`** | **Umbrella — pulls in all three modules below. Use this 99% of the time.** |
-| `:liquidglass-core` | Pure data: `GlassStyle`, `GlassStyles` presets |
-| `:liquidglass-theme` | `GlassTheme`, `LiquidRoot`, `LocalGlassStyle`, `LocalLiquidState` |
-| `:liquidglass-components` | All `Glass*` components and the optional animation modifiers |
-
-Dependency direction (always downward, never upward):
-
-```
-                         ┌──▶ :liquidglass-core
-:sample ─▶ :liquidglass ─┼──▶ :liquidglass-theme ──▶ :liquidglass-core
-                         └──▶ :liquidglass-components ─▶ :liquidglass-theme + :liquidglass-core
-                                          │
-                                          └──▶ io.github.fletchmckee.liquid
-```
-
-### Granular install (optional)
-
-If you only need styles and theming, skip the umbrella and depend on individual modules:
-
-```kotlin
-dependencies {
-    // Just data classes + presets:
-    implementation("com.github.sengleaph.liquidglass:liquidglass-core:0.1.0")
-
-    // Add theming + LiquidRoot:
-    implementation("com.github.sengleaph.liquidglass:liquidglass-theme:0.1.0")
-
-    // Add all Glass* components + animation modifiers:
-    implementation("com.github.sengleaph.liquidglass:liquidglass-components:0.1.0")
-}
-```
-
----
-
-## Troubleshooting
-
-| Symptom | Cause | Fix |
-| --- | --- | --- |
-| Gradle: `Could not find com.github.sengleaph.liquidglass:...` | JitPack hasn't built it yet | Open the build log at `https://jitpack.io/com/github/sengleaph/liquidglass/<version>/build.log` — wait 1–3 min |
-| Build fails with "JDK 8 required" | `jitpack.yml` not set up | The repo ships one; pull the latest tag |
-| Compiles but glass looks flat | Device API < 33 | Test on Android 13+ emulator |
-| `GlassRoot` is empty, surfaces look tinted-but-flat | Backdrop in the wrong slot | Move the backdrop into `LiquidRoot(background = { … })`, NOT into `content` |
-| Tint isn't applied | Tint alpha = 1.0 | Use `Color(...).copy(alpha = 0.2f)` |
 
 ---
 

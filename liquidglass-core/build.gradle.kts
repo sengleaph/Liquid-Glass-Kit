@@ -2,7 +2,6 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    `maven-publish`
 }
 
 android {
@@ -25,15 +24,8 @@ android {
         targetCompatibility = JavaVersion.VERSION_21
     }
 
-
     buildFeatures {
         compose = true
-    }
-
-    publishing {
-        singleVariant("release") {
-            withSourcesJar()
-        }
     }
 }
 
@@ -44,17 +36,3 @@ dependencies {
     api(libs.androidx.ui.graphics)
     api(libs.androidx.foundation)
 }
-
-afterEvaluate {
-    publishing {
-        publications {
-            create<MavenPublication>("release") {
-                from(components["release"])
-                groupId = "com.github.sengleaph"
-                artifactId = project.name
-                version = System.getenv("VERSION") ?: "0.1.0"
-            }
-        }
-    }
-}
-
