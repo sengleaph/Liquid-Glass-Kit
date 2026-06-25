@@ -1,0 +1,192 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "com.github.sengleaph",
+    "module": "liquidglass-components",
+    "version": "0.1.0",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "8.13"
+    }
+  },
+  "variants": [
+    {
+      "name": "releaseVariantReleaseApiPublication",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.libraryelements": "aar",
+        "org.gradle.usage": "java-api"
+      },
+      "dependencies": [
+        {
+          "group": "com.github.sengleaph",
+          "module": "liquidglass-core",
+          "version": {
+            "requires": "0.1.0"
+          }
+        },
+        {
+          "group": "com.github.sengleaph",
+          "module": "liquidglass-theme",
+          "version": {
+            "requires": "0.1.0"
+          }
+        },
+        {
+          "group": "androidx.compose.runtime",
+          "module": "runtime"
+        },
+        {
+          "group": "androidx.compose.ui",
+          "module": "ui"
+        },
+        {
+          "group": "androidx.compose.ui",
+          "module": "ui-graphics"
+        },
+        {
+          "group": "androidx.compose.foundation",
+          "module": "foundation"
+        },
+        {
+          "group": "androidx.compose.material3",
+          "module": "material3"
+        },
+        {
+          "group": "io.github.fletchmckee.liquid",
+          "module": "liquid",
+          "version": {
+            "requires": "1.1.1"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "2.4.0"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "liquidglass-components-0.1.0.aar",
+          "url": "liquidglass-components-0.1.0.aar",
+          "size": 81477,
+          "sha512": "9060c5c93b5e7991dcfe8d0434c06c5fe0c9f2ef43ab715459d99c7c8cbc5eaba5d0dcfd8972cd0a60a08934fe1240fe6367dcc5c36e1bc42d341166e3f006ec",
+          "sha256": "b08a4958beef55b69bcf8d478857f34db401b6b8618300146d51342b8664a499",
+          "sha1": "55521d47ac118be8708289e672b34b74d3d2ffa0",
+          "md5": "030bcfd1abcdbbb84420c1ce7bc554f2"
+        }
+      ]
+    },
+    {
+      "name": "releaseVariantReleaseRuntimePublication",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.libraryelements": "aar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "androidx.compose",
+          "module": "compose-bom",
+          "version": {
+            "requires": "2024.09.00"
+          },
+          "attributes": {
+            "org.gradle.category": "platform"
+          }
+        },
+        {
+          "group": "androidx.compose.ui",
+          "module": "ui-tooling-preview"
+        },
+        {
+          "group": "com.github.sengleaph",
+          "module": "liquidglass-core",
+          "version": {
+            "requires": "0.1.0"
+          }
+        },
+        {
+          "group": "com.github.sengleaph",
+          "module": "liquidglass-theme",
+          "version": {
+            "requires": "0.1.0"
+          }
+        },
+        {
+          "group": "androidx.compose.runtime",
+          "module": "runtime"
+        },
+        {
+          "group": "androidx.compose.ui",
+          "module": "ui"
+        },
+        {
+          "group": "androidx.compose.ui",
+          "module": "ui-graphics"
+        },
+        {
+          "group": "androidx.compose.foundation",
+          "module": "foundation"
+        },
+        {
+          "group": "androidx.compose.material3",
+          "module": "material3"
+        },
+        {
+          "group": "io.github.fletchmckee.liquid",
+          "module": "liquid",
+          "version": {
+            "requires": "1.1.1"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "2.4.0"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "liquidglass-components-0.1.0.aar",
+          "url": "liquidglass-components-0.1.0.aar",
+          "size": 81477,
+          "sha512": "9060c5c93b5e7991dcfe8d0434c06c5fe0c9f2ef43ab715459d99c7c8cbc5eaba5d0dcfd8972cd0a60a08934fe1240fe6367dcc5c36e1bc42d341166e3f006ec",
+          "sha256": "b08a4958beef55b69bcf8d478857f34db401b6b8618300146d51342b8664a499",
+          "sha1": "55521d47ac118be8708289e672b34b74d3d2ffa0",
+          "md5": "030bcfd1abcdbbb84420c1ce7bc554f2"
+        }
+      ]
+    },
+    {
+      "name": "releaseVariantReleaseSourcePublication",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "liquidglass-components-0.1.0-sources.jar",
+          "url": "liquidglass-components-0.1.0-sources.jar",
+          "size": 16518,
+          "sha512": "925194106afb9cd8992976083c27352018ef50fbb3b530f4e11a0aae2b62b32f3ad971b5460b51a954a6e591ba73ea7ec4e2e9e7ab33004765811bd32a991daa",
+          "sha256": "3a28c33e828d3069f540560e2e2ed223b2088094b3ec294192a9c2841b3579ef",
+          "sha1": "0b425b1f47282d67120603e0b4d64910985c0e0b",
+          "md5": "cb7aa40516f03014f0bd205eab9c0fa9"
+        }
+      ]
+    }
+  ]
+}

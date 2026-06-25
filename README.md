@@ -1,293 +1,309 @@
 # LiquidGlassKit
 
-A production-ready Jetpack Compose design-system library that delivers Apple-inspired **Liquid
-Glass** UI components for Android. Built on top of
-[`io.github.fletchmckee:liquid`](https://central.sonatype.com/artifact/io.github.fletchmckee/liquid),
-LiquidGlassKit hides the low-level `LiquidScope` DSL behind a small, theme-aware component set so
-your screens stay declarative and clean.
+[![](https://jitpack.io/v/sengleaph/liquidglass.svg)](https://jitpack.io/#sengleaph/liquidglass)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![min SDK 24](https://img.shields.io/badge/minSdk-24-brightgreen.svg)](https://developer.android.com/about/versions/nougat)
 
-```
-LiquidRoot(
-    background = {
-        Box(
-            Modifier
-                .fillMaxSize()
-                .background(Brush.verticalGradient(listOf(blue, pink)))
-        )
-    }
-) {
-    GlassTheme(style = GlassStyles.Liquid) {
-        GlassCard(modifier = Modifier.fillMaxWidth()) {
-            Text("Account Balance")
-            Text("$12,480.55", style = MaterialTheme.typography.displaySmall)
+**Apple-inspired Liquid Glass UI components for Jetpack Compose.**
+
+LiquidGlassKit gives you `GlassCard`, `GlassButton`, `GlassDialog`, `GlassNavigationBar` and
+friends — every component renders as refractive glass with frost, tint and rim lighting.
+It wraps the GPU-shader work in [`io.github.fletchmckee.liquid`](https://github.com/FletchMcKee/liquid)
+behind a small, theme-aware API so you never touch the low-level DSL.
+
+```kotlin
+GlassTheme(style = GlassStyles.Liquid) {
+    LiquidRoot(
+        background = { ColorfulBackdrop() }
+    ) {
+        GlassCard {
+            Text("Hello, Liquid Glass", style = MaterialTheme.typography.titleLarge)
         }
-        GlassButton(text = "Continue", onClick = { /* ... */ })
     }
 }
-```
-
----
-
-## Modules
-
-| Module | Purpose |
-| --- | --- |
-| **`:liquidglass-core`** | Pure data: `GlassStyle`, `GlassStyles` presets. Zero composables. |
-| **`:liquidglass-theme`** | `GlassTheme`, `LiquidRoot`, `LocalGlassStyle`, `LocalLiquidState`. |
-| **`:liquidglass-components`** | All `Glass*` components and the optional animation modifiers. |
-| **`:sample`** | Showcase app — `MainActivity.kt` exercises every component. |
-
-Architecture follows Clean Architecture: each module depends only on lower layers, never on
-upper ones. `:liquidglass-core` is the bottom of the stack; `:liquidglass-components` brings
-everything together.
-
-```
-:sample ─▶ :liquidglass-components ─▶ :liquidglass-theme ─▶ :liquidglass-core
-                       │                       │
-                       └───────────────────────┴──▶ io.github.fletchmckee:liquid
 ```
 
 ---
 
 ## Install
 
-`gradle/libs.versions.toml`:
-
-```toml
-[versions]
-liquid = "0.3.0"
-
-[libraries]
-liquid = { group = "io.github.fletchmckee", name = "liquid", version.ref = "liquid" }
-```
-
-In your app module:
+### Step 1 — Add JitPack to your project's `settings.gradle.kts`
 
 ```kotlin
-dependencies {
-    implementation(project(":liquidglass-core"))
-    implementation(project(":liquidglass-theme"))
-    implementation(project(":liquidglass-components"))
+dependencyResolutionManagement {
+    repositories {
+        google()
+        mavenCentral()
+        maven { url = uri("https://jitpack.io") }   // ← add this line
+    }
 }
 ```
 
-> **Note:** This repo vendors LiquidGlassKit as source. To publish to Maven, wire each library
-> module to your favorite publishing plugin (`com.vanniktech.maven.publish` is recommended) and
-> consumers can drop `implementation("io.github.fletchmckee:liquid:0.3.0")` straight into their
-> own apps.
+### Step 2 — Add the three dependencies to your app's `build.gradle.kts`
 
-### Requirements
+```kotlin
+dependencies {
+    implementation("com.github.sengleaph.liquidglass:liquidglass-core:0.1.0")
+    implementation("com.github.sengleaph.liquidglass:liquidglass-theme:0.1.0")
+    implementation("com.github.sengleaph.liquidglass:liquidglass-components:0.1.0")
+}
+```
 
-- Android `minSdk = 24` (API 24 / Nougat) for the library to compile and not crash.
-- **Android 13+ (API 33+) on the device for the full Liquid Glass visuals.**
-- Kotlin `2.0.21+`
-- Jetpack Compose BOM `2024.09.00+` (Material 3)
-- Compose Compiler plugin (`org.jetbrains.kotlin.plugin.compose`)
+### Step 3 — Sync Gradle
 
-### Android-version fallback (from the underlying liquid library)
-
-The upstream effect uses an Android `RuntimeShader`, which only exists on API 33+:
-
-| Android level | What renders |
-| --- | --- |
-| **13+ (API 33+)** | Full Liquid Glass — refraction, curve, dispersion, frost, edge, tint, contrast, saturation. |
-| **12 (API 32)** | Frost + tint + edge + contrast + saturation. Refraction, curve, dispersion are no-ops. |
-| **11 and lower (≤ API 30)** | Tint + edge + contrast + saturation only. Frost is also a no-op. |
-
-If you test on a Pixel emulator running **API 30 / Android 11**, you will see flat tinted
-rectangles with no blur or refraction — *not because the wrapper is broken*, but because the
-shader pipeline doesn't exist on that OS. **Run the sample on an API 33+ emulator** (e.g.
-Pixel 7 / Android 13 image) and the glass effect will show up immediately.
+Click **Sync Now**. First sync takes 1–3 minutes (JitPack is building the library); every sync after is instant.
 
 ---
 
-## Core concepts
+## Tutorial — your first Liquid Glass screen in 3 minutes
 
-### `GlassStyle`
+This walks you through building the screen at the top of the README from scratch.
 
-Every glass surface is described by a single immutable [`GlassStyle`](liquidglass-core/src/main/java/com/fuu/liquidglass/core/GlassStyle.kt)
-data class. The nine properties map 1:1 to the `LiquidScope` DSL on `Modifier.liquid {}`:
+### 1. Wrap your screen in `LiquidRoot`
 
-| Property | Type | What it does |
-| --- | --- | --- |
-| `frost` | `Dp` | Backdrop blur radius. |
-| `tint` | `Color` | Color washed over the blurred backdrop. |
-| `edge` | `Float` | Rim highlight intensity (`0f..1f`). |
-| `contrast` | `Float` | Backdrop contrast multiplier. |
-| `saturation` | `Float` | Backdrop saturation multiplier. |
-| `refraction` | `Float` | Edge refraction strength (`0f..1f`). |
-| `dispersion` | `Float` | Chromatic dispersion (rainbow fringe). |
-| `curve` | `Float` | Glass curvature. |
-| `shape` | `Shape` | Outline shape, used both for clipping and rim path. |
-
-### `GlassStyles`
-
-Curated presets in [`GlassStyles`](liquidglass-core/src/main/java/com/fuu/liquidglass/core/GlassStyles.kt):
-
-- **`Clear`** — near-invisible glass, light blur, soft edge.
-- **`Frosted`** — the Control Center default. *(also exposed as `GlassStyles.Default`)*
-- **`Crystal`** — sharper, brighter rim, stronger refraction.
-- **`Liquid`** — the flagship preset; cool-blue tint, generous rounding.
-- **`Neon`** — magenta-tinted, hyper-saturated, exaggerated chromatic dispersion.
-
-### `LiquidRoot`
-
-Wrap the topmost screen in [`LiquidRoot`](liquidglass-theme/src/main/java/com/fuu/liquidglass/theme/LiquidRoot.kt).
-It lays out two stacked layers and connects them through a single shared `LiquidState`:
-
-- **`background`** — the refraction source (wallpaper, gradient, image). Drawn into the
-  `liquefiable` surface.
-- **`content`** — the foreground; put every `Glass*` component here.
-
-Keeping the two slots separate is critical: if glass surfaces are drawn into the same layer
-as the backdrop, they refract themselves and the effect collapses into flat tinted rectangles.
+`LiquidRoot` is the host. It sets up a single shared refraction "scene" — a backdrop layer that
+gets captured, and a foreground layer where your glass surfaces live.
 
 ```kotlin
 setContent {
     LiquidRoot(
         background = {
-            Box(
-                Modifier
-                    .fillMaxSize()
-                    .background(Brush.verticalGradient(listOf(blue, pink)))
-            )
+            // anything drawn here is what glass surfaces refract
         }
     ) {
-        GlassTheme(style = GlassStyles.Liquid) {
-            HomeScreen()
-        }
+        // every Glass* component goes here
     }
 }
 ```
 
-`LiquidRoot` publishes the state through `LocalLiquidState`; you never have to thread it
-manually. Components fall back to a private state when no `LiquidRoot` is in scope so
-`@Preview` works out of the box.
+> **Important:** the two slots are NOT interchangeable. If you put glass surfaces inside the
+> `background` slot they'll refract themselves and look flat. Keep them in `content`.
 
-### `GlassTheme`
+### 2. Give it a backdrop worth refracting
 
-[`GlassTheme`](liquidglass-theme/src/main/java/com/fuu/liquidglass/theme/GlassTheme.kt) provides
-the active style to descendants and wraps Material 3. Nest `GlassTheme` calls to scope a
-different look to a subtree:
+Glass needs something colorful behind it to look like glass. A gradient is the easiest:
+
+```kotlin
+LiquidRoot(
+    background = {
+        Box(
+            Modifier
+                .fillMaxSize()
+                .background(
+                    Brush.verticalGradient(
+                        listOf(Color(0xFF1B3CFF), Color(0xFFFF3A8B))
+                    )
+                )
+        )
+    }
+) { /* content next */ }
+```
+
+You can put anything here — a photo, an animated `Canvas`, a `LazyColumn` of cards. The glass
+will refract all of it.
+
+### 3. Pick a style with `GlassTheme`
 
 ```kotlin
 GlassTheme(style = GlassStyles.Liquid) {
-    GlassCard { /* ... */ }
-
-    // Override just this section:
-    GlassTheme(style = GlassStyles.Neon) {
-        GlassButton(text = "Buy", onClick = {})
+    LiquidRoot(background = { /* ... */ }) {
+        /* glass components see GlassStyles.Liquid as the default */
     }
 }
 ```
+
+Five presets are bundled:
+
+| Preset | Look |
+| --- | --- |
+| `GlassStyles.Clear` | Near-invisible glass, light blur |
+| `GlassStyles.Frosted` | Apple Control Center default |
+| `GlassStyles.Crystal` | Sharper, brighter rim |
+| `GlassStyles.Liquid` | Cool-blue tint, generous rounding (flagship preset) |
+| `GlassStyles.Neon` | Magenta-tinted, hyper-saturated, chromatic dispersion |
+
+### 4. Drop in some `Glass*` components
+
+```kotlin
+GlassTheme(style = GlassStyles.Liquid) {
+    LiquidRoot(background = { /* gradient */ }) {
+        Column(
+            Modifier.padding(24.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+        ) {
+            GlassCard(Modifier.fillMaxWidth()) {
+                Text("Account Balance", style = MaterialTheme.typography.labelMedium)
+                Text("$12,480.55", style = MaterialTheme.typography.displaySmall)
+            }
+            GlassButton(text = "Continue", onClick = { /* ... */ })
+        }
+    }
+}
+```
+
+That's the whole tutorial. Run it on an Android 13+ device and you'll see live Liquid Glass.
 
 ---
 
 ## Components
 
-All `Glass*` components live in `com.fuu.liquidglass.components`. Each reads `LocalGlassStyle`
-by default and accepts a `style` parameter for ad-hoc overrides.
+All components live in `com.fuu.liquidglass.components`. Each reads `LocalGlassStyle` by default
+and accepts a `style` parameter for one-off overrides.
 
 | Component | What it is |
 | --- | --- |
-| `GlassSurface` | Base primitive — a `Box` with a glass effect. |
-| `GlassCard` | `Column`-shaped glass tile, optionally clickable with a press animation. |
-| `GlassButton` | Pill-shaped button with text + optional leading/trailing icon slots. |
-| `GlassIconButton` | Circular icon button. |
-| `GlassFloatingActionButton` / `GlassFAB` | Rounded FAB with an optional float animation. |
-| `GlassTopBar` | App bar — leading nav icon, title, trailing actions. |
-| `GlassBottomBar` | Bottom container for primary actions. |
-| `GlassNavigationBar` + `GlassNavigationBarItem` | Bottom navigation rail with selection state. |
-| `GlassDialog` | Modal dialog with a Liquid Glass surface. |
+| `GlassSurface` | Base primitive — a `Box` with a glass effect |
+| `GlassCard` | `Column`-shaped tile, optionally clickable with a press animation |
+| `GlassButton` | Pill-shaped button with text + optional leading/trailing icon |
+| `GlassIconButton` | Circular icon-only button |
+| `GlassFloatingActionButton` / `GlassFAB` | Rounded FAB with optional float animation |
+| `GlassTopBar` | App bar — leading nav, title, trailing actions |
+| `GlassBottomBar` | Bottom container for primary actions |
+| `GlassNavigationBar` + `GlassNavigationBarItem` | Bottom navigation rail with selection state |
+| `GlassDialog` | Modal dialog rendered on a glass surface |
 
----
+### Optional animations
 
-## Animations
-
-Optional modifier-style animations under `com.fuu.liquidglass.animation`. Each accepts an
-`enabled` flag so you can keep call sites uniform.
+Modifier extensions you can chain on any glass component:
 
 | Modifier | Effect |
 | --- | --- |
-| `Modifier.glassPressAnimation(interactionSource)` | Springy scale-down while pressed. |
-| `Modifier.glassHoverAnimation(interactionSource)` | Lift on hover (tablets, foldables). |
-| `Modifier.glassFloatAnimation()` | Continuous vertical bob — used by `GlassFAB`. |
-| `Modifier.glassShimmerAnimation()` | Sweeping highlight band — great for loading states. |
-
-```kotlin
-val interactionSource = remember { MutableInteractionSource() }
-GlassSurface(
-    modifier = Modifier
-        .glassPressAnimation(interactionSource)
-        .clickable(interactionSource, indication = ripple()) { onClick() }
-) { /* ... */ }
-```
+| `Modifier.glassPressAnimation(interactionSource)` | Springy scale-down while pressed |
+| `Modifier.glassHoverAnimation(interactionSource)` | Lift on hover (tablets, foldables) |
+| `Modifier.glassFloatAnimation()` | Continuous vertical bob — used by `GlassFAB` |
+| `Modifier.glassShimmerAnimation()` | Sweeping highlight band — great for loading states |
 
 ---
 
-## Theming
+## Customizing the look
 
-`GlassTheme` wraps `MaterialTheme`, so all Material 3 typography, color and shape APIs continue
-to work. Dark mode follows the system by default — pass `useDarkTheme = false` to force light.
+### Tweak a preset with `.copy()`
 
 ```kotlin
-GlassTheme(
-    style = GlassStyles.Liquid,
-    colorScheme = darkColorScheme(primary = Color(0xFF8FB8FF)),
-    typography = MyAppTypography,
-) {
-    /* ... */
+val MyGold = GlassStyles.Frosted.copy(
+    tint = Color(0xFFFFD700).copy(alpha = 0.18f),
+    edge = 0.8f,
+)
+
+GlassCard(style = MyGold) { /* ... */ }
+```
+
+### Build a new style from scratch
+
+```kotlin
+val Aqua = GlassStyle(
+    frost = 22.dp,
+    tint = Color(0xFF00C2FF).copy(alpha = 0.18f),
+    edge = 0.85f,
+    contrast = 1.10f,
+    saturation = 1.25f,
+    refraction = 0.55f,
+    dispersion = 0.12f,
+    curve = 1.10f,
+    shape = RoundedCornerShape(20.dp),
+)
+```
+
+### Property cheat sheet
+
+| Want… | Tweak | Direction |
+| --- | --- | --- |
+| Heavier blur | `frost` | up: `8.dp → 32.dp → 64.dp` |
+| Brighter rim | `edge` | up: `0f → 1f` |
+| Stronger lens | `refraction` + `curve` | both up: `0.2f → 0.9f` |
+| Rainbow fringe | `dispersion` | up: `0f → 0.4f` |
+| More vivid backdrop | `saturation` | up: `1.0f → 1.4f` |
+| Color wash | `tint` | change hue, **keep alpha ≤ 0.25** |
+| Rounder corners | `shape` | `RoundedCornerShape(24.dp → 36.dp)` |
+| Circle | `shape` | `CircleShape` |
+
+### Nested overrides
+
+```kotlin
+GlassTheme(style = GlassStyles.Liquid) {
+    GlassCard { Text("Liquid") }
+
+    // Override just this subtree:
+    GlassTheme(style = GlassStyles.Neon) {
+        GlassButton(text = "Neon", onClick = {})
+    }
 }
 ```
 
 ---
 
-## Package structure
+## Requirements
 
-```
-com.fuu.liquidglass
-├── core/         # GlassStyle, GlassStyles
-├── theme/        # GlassTheme, LiquidRoot, LocalGlassStyle, LocalLiquidState
-├── components/   # GlassCard, GlassButton, GlassIconButton, GlassFAB,
-│                 # GlassTopBar, GlassBottomBar, GlassNavigationBar, GlassDialog,
-│                 # GlassSurface
-├── animation/    # GlassPressAnimation, GlassHoverAnimation,
-│                 # GlassFloatAnimation, GlassShimmerAnimation
-└── internal/     # Bridge between GlassStyle and the upstream Liquid DSL
-```
+| | Minimum | Recommended |
+| --- | --- | --- |
+| Android `minSdk` | 24 (library compiles and won't crash) | 33+ (full Liquid Glass effect) |
+| Kotlin | 2.0+ | 2.0.21+ |
+| Compose BOM | 2024.09.00+ | 2024.09.00+ |
+| Compose Compiler plugin | required since Kotlin 2.0 | — |
 
----
+### Android-version fallback
 
-## Design goals
+The underlying liquid shader needs Android 13+ (API 33). Below that, the library gracefully
+degrades — your code keeps working, the visuals get simpler:
 
-- **Apple Liquid Glass look** — generous corner radii, strong rim refraction, soft frost, vivid
-  tint.
-- **Material 3 compatible** — every component honors the active `ColorScheme`, `Typography` and
-  `Shapes`.
-- **Light + Dark support** — `GlassTheme` follows the system theme by default.
-- **Zero `LiquidScope` exposure** — consumers never see the underlying DSL.
-- **Strict public API** — all library modules build with `-Xexplicit-api=strict` so the surface
-  area is well-defined and stable.
+| Device API level | What renders |
+| --- | --- |
+| **API 33+ (Android 13)** | Full Liquid Glass — refraction, frost, edge, dispersion, curve |
+| **API 32 (Android 12)** | Frost + tint + edge only (no refraction / curve / dispersion) |
+| **API ≤ 30 (Android 11)** | Tint + edge only (frost also disabled) |
+
+If your card looks like a flat tinted rectangle, you're almost certainly on a device below API
+33. Test on a Pixel 7 / Android 13+ emulator.
 
 ---
 
 ## Sample app
 
-Run the `:sample` module to see every component live:
+The `:sample` module ships a full demo with every component over a gradient backdrop, a
+real-time style tuner, and a nested `GlassTheme(Neon)` override:
+
+```powershell
+.\gradlew :sample:installDebug
+```
+
+---
+
+## Modules
+
+The library is split into three artifacts so consumers can pull only what they need:
+
+| Module | Purpose |
+| --- | --- |
+| `:liquidglass-core` | Pure data: `GlassStyle`, `GlassStyles` presets |
+| `:liquidglass-theme` | `GlassTheme`, `LiquidRoot`, `LocalGlassStyle`, `LocalLiquidState` |
+| `:liquidglass-components` | All `Glass*` components and the optional animation modifiers |
+
+Dependency direction (always downward, never upward):
 
 ```
-./gradlew :sample:installDebug
+:sample ─▶ :liquidglass-components ─▶ :liquidglass-theme ─▶ :liquidglass-core
+                       │                       │
+                       └───────────────────────┴──▶ io.github.fletchmckee.liquid
 ```
 
-The sample exercises `LiquidRoot`, three nested `GlassTheme` scopes, a vivid gradient backdrop,
-and every `Glass*` component including the dialog.
+---
+
+## Troubleshooting
+
+| Symptom | Cause | Fix |
+| --- | --- | --- |
+| Gradle: `Could not find com.github.sengleaph.liquidglass:...` | JitPack hasn't built it yet | Open the build log at `https://jitpack.io/com/github/sengleaph/liquidglass/<version>/build.log` — wait 1–3 min |
+| Build fails with "JDK 8 required" | `jitpack.yml` not set up | The repo ships one; pull the latest tag |
+| Compiles but glass looks flat | Device API < 33 | Test on Android 13+ emulator |
+| `GlassRoot` is empty, surfaces look tinted-but-flat | Backdrop in the wrong slot | Move the backdrop into `LiquidRoot(background = { … })`, NOT into `content` |
+| Tint isn't applied | Tint alpha = 1.0 | Use `Color(...).copy(alpha = 0.2f)` |
 
 ---
 
 ## License
 
 ```
-Copyright 2026 LiquidGlassKit contributors.
+Copyright 2026 sengleaph
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -295,3 +311,11 @@ You may obtain a copy of the License at
 
     http://www.apache.org/licenses/LICENSE-2.0
 ```
+
+---
+
+## Credits
+
+LiquidGlassKit is a thin wrapper around the excellent
+[FletchMcKee/liquid](https://github.com/FletchMcKee/liquid) library by Colin McKee — that's the
+project doing the real GPU shader work. All credit for the underlying effect goes there.
