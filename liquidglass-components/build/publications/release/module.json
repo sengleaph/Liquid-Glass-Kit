@@ -1,7 +1,7 @@
 {
   "formatVersion": "1.1",
   "component": {
-    "group": "com.github.sengleaph",
+    "group": "com.github.sengleaph.liquidglass",
     "module": "liquidglass-components",
     "version": "0.3.0",
     "attributes": {
@@ -24,14 +24,14 @@
       },
       "dependencies": [
         {
-          "group": "com.github.sengleaph",
+          "group": "com.github.sengleaph.liquidglass",
           "module": "liquidglass-core",
           "version": {
             "requires": "0.3.0"
           }
         },
         {
-          "group": "com.github.sengleaph",
+          "group": "com.github.sengleaph.liquidglass",
           "module": "liquidglass-theme",
           "version": {
             "requires": "0.3.0"
@@ -108,14 +108,14 @@
           "module": "ui-tooling-preview"
         },
         {
-          "group": "com.github.sengleaph",
+          "group": "com.github.sengleaph.liquidglass",
           "module": "liquidglass-core",
           "version": {
             "requires": "0.3.0"
           }
         },
         {
-          "group": "com.github.sengleaph",
+          "group": "com.github.sengleaph.liquidglass",
           "module": "liquidglass-theme",
           "version": {
             "requires": "0.3.0"

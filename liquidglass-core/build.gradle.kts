@@ -49,9 +49,9 @@ afterEvaluate {
         publications {
             create<MavenPublication>("release") {
                 from(components["release"])
-                groupId = "com.github.sengleaph"
+                groupId = "com.github.sengleaph.liquidglass"
                 artifactId = project.name
-                version = System.getenv("VERSION") ?: "0.3.0"
+                version = System.getenv("VERSION") ?: "0.3.1"
             }
         }
     }

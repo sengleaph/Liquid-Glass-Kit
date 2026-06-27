@@ -7,25 +7,25 @@
   <!-- that they should prefer consuming it instead. -->
   <!-- do_not_remove: published-with-gradle-metadata -->
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.github.sengleaph</groupId>
+  <groupId>com.github.sengleaph.liquidglass</groupId>
   <artifactId>liquidglass</artifactId>
   <version>0.3.0</version>
   <packaging>aar</packaging>
   <dependencies>
     <dependency>
-      <groupId>com.github.sengleaph</groupId>
+      <groupId>com.github.sengleaph.liquidglass</groupId>
       <artifactId>liquidglass-core</artifactId>
       <version>0.3.0</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
-      <groupId>com.github.sengleaph</groupId>
+      <groupId>com.github.sengleaph.liquidglass</groupId>
       <artifactId>liquidglass-theme</artifactId>
       <version>0.3.0</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
-      <groupId>com.github.sengleaph</groupId>
+      <groupId>com.github.sengleaph.liquidglass</groupId>
       <artifactId>liquidglass-components</artifactId>
       <version>0.3.0</version>
       <scope>compile</scope>
