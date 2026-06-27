@@ -22,6 +22,7 @@ dependencyResolutionManagement {
 rootProject.name = "LiquidGlassKit"
 
 include(
+    ":liquidglass",            // umbrella — re-exports the three modules below
     ":liquidglass-core",
     ":liquidglass-theme",
     ":liquidglass-components",

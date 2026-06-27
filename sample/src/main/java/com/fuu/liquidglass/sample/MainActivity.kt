@@ -109,7 +109,8 @@ private fun AnimatedBackdrop() {
         Image(
             painter = painterResource(R.drawable.bg_app),
             contentDescription = null,
-            contentScale = ContentScale.Crop
+            contentScale = ContentScale.Crop,
+            modifier = Modifier.fillMaxSize()
         )
     }
     // Floating colored blobs to demonstrate refraction across the glass surfaces.

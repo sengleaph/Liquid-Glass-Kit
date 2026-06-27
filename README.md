@@ -1,5 +1,7 @@
 # LiquidGlassKit
 
+[![](https://jitpack.io/v/sengleaph/liquidglass.svg)](https://jitpack.io/#sengleaph/liquidglass)
+
 **Apple-inspired Liquid Glass UI components for Jetpack Compose.**
 
 ```kotlin
@@ -16,10 +18,42 @@ GlassTheme(style = GlassStyles.Liquid) {
 
 ---
 
+## Install
+
+### Step 1 — Add JitPack to `settings.gradle.kts`
+
+```kotlin
+dependencyResolutionManagement {
+    repositories {
+        google()
+        mavenCentral()
+        maven { url = uri("https://jitpack.io") }
+    }
+}
+```
+
+### Step 2 — Add ONE dependency to `app/build.gradle.kts`
+
+```kotlin
+dependencies {
+    implementation("com.github.sengleaph.liquidglass:liquidglass:0.1.0")
+}
+```
+
+That single line pulls in `:liquidglass-core`, `:liquidglass-theme`, and `:liquidglass-components`
+transitively — every `Glass*` component, every preset, every animation modifier.
+
+### Step 3 — Sync Gradle
+
+First sync takes 1–3 minutes (JitPack is building the library); every sync after is instant.
+
+---
+
 ## Modules
 
 | Module | Purpose |
 | --- | --- |
+| **`:liquidglass`** | **Umbrella — re-exports the three modules below. Use this 99% of the time.** |
 | `:liquidglass-core` | Pure data: `GlassStyle`, `GlassStyles` presets |
 | `:liquidglass-theme` | `GlassTheme`, `LiquidRoot`, `LocalGlassStyle`, `LocalLiquidState` |
 | `:liquidglass-components` | All `Glass*` components and the optional animation modifiers |
@@ -28,18 +62,22 @@ GlassTheme(style = GlassStyles.Liquid) {
 Dependency direction (always downward, never upward):
 
 ```
-:sample ─▶ :liquidglass-components ─▶ :liquidglass-theme ─▶ :liquidglass-core
-                       │                       │
-                       └───────────────────────┴──▶ io.github.fletchmckee.liquid
+                         ┌──▶ :liquidglass-core
+:sample ─▶ :liquidglass ─┼──▶ :liquidglass-theme ──▶ :liquidglass-core
+                         └──▶ :liquidglass-components ─▶ :liquidglass-theme + :liquidglass-core
+                                          │
+                                          └──▶ io.github.fletchmckee.liquid
 ```
 
-To use it from another module in this project:
+### Granular install (optional)
+
+If you only need styles and theming, skip the umbrella and depend on individual modules:
 
 ```kotlin
 dependencies {
-    implementation(project(":liquidglass-core"))
-    implementation(project(":liquidglass-theme"))
-    implementation(project(":liquidglass-components"))
+    implementation("com.github.sengleaph.liquidglass:liquidglass-core:0.1.0")
+    implementation("com.github.sengleaph.liquidglass:liquidglass-theme:0.1.0")
+    implementation("com.github.sengleaph.liquidglass:liquidglass-components:0.1.0")
 }
 ```
 

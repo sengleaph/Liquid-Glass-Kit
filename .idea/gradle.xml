@@ -10,6 +10,7 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/liquidglass" />
             <option value="$PROJECT_DIR$/liquidglass-components" />
             <option value="$PROJECT_DIR$/liquidglass-core" />
             <option value="$PROJECT_DIR$/liquidglass-theme" />
