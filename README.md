@@ -36,7 +36,7 @@ dependencyResolutionManagement {
 
 ```kotlin
 dependencies {
-    implementation("com.github.sengleaph.liquidglass:liquidglass:0.1.0")
+    implementation("com.github.sengleaph.liquidglass:liquidglass:0.3.0")
 }
 ```
 
@@ -75,9 +75,9 @@ If you only need styles and theming, skip the umbrella and depend on individual 
 
 ```kotlin
 dependencies {
-    implementation("com.github.sengleaph.liquidglass:liquidglass-core:0.1.0")
-    implementation("com.github.sengleaph.liquidglass:liquidglass-theme:0.1.0")
-    implementation("com.github.sengleaph.liquidglass:liquidglass-components:0.1.0")
+    implementation("com.github.sengleaph.liquidglass:liquidglass-core:0.3.0")
+    implementation("com.github.sengleaph.liquidglass:liquidglass-theme:0.3.0")
+    implementation("com.github.sengleaph.liquidglass:liquidglass-components:0.3.0")
 }
 ```
 

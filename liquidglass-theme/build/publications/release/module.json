@@ -3,7 +3,7 @@
   "component": {
     "group": "com.github.sengleaph",
     "module": "liquidglass-theme",
-    "version": "0.1.0",
+    "version": "0.3.0",
     "attributes": {
       "org.gradle.status": "release"
     }
@@ -27,7 +27,7 @@
           "group": "com.github.sengleaph",
           "module": "liquidglass-core",
           "version": {
-            "requires": "0.1.0"
+            "requires": "0.3.0"
           }
         },
         {
@@ -63,8 +63,8 @@
       ],
       "files": [
         {
-          "name": "liquidglass-theme-0.1.0.aar",
-          "url": "liquidglass-theme-0.1.0.aar",
+          "name": "liquidglass-theme-0.3.0.aar",
+          "url": "liquidglass-theme-0.3.0.aar",
           "size": 15812,
           "sha512": "fb74d24f33d7c6d92b4509f25a45b0d183d01c529078d0d9bb219637d24b0ab74902b79d19a419996668fd0f3c0846c6d78317b3303b0ca93aa64bdecefae6af",
           "sha256": "448b61711a6b712f9dbb9060e37ab935d2b139065898db2b582dba7a463406d3",
@@ -96,7 +96,7 @@
           "group": "com.github.sengleaph",
           "module": "liquidglass-core",
           "version": {
-            "requires": "0.1.0"
+            "requires": "0.3.0"
           }
         },
         {
@@ -132,8 +132,8 @@
       ],
       "files": [
         {
-          "name": "liquidglass-theme-0.1.0.aar",
-          "url": "liquidglass-theme-0.1.0.aar",
+          "name": "liquidglass-theme-0.3.0.aar",
+          "url": "liquidglass-theme-0.3.0.aar",
           "size": 15812,
           "sha512": "fb74d24f33d7c6d92b4509f25a45b0d183d01c529078d0d9bb219637d24b0ab74902b79d19a419996668fd0f3c0846c6d78317b3303b0ca93aa64bdecefae6af",
           "sha256": "448b61711a6b712f9dbb9060e37ab935d2b139065898db2b582dba7a463406d3",
@@ -152,8 +152,8 @@
       },
       "files": [
         {
-          "name": "liquidglass-theme-0.1.0-sources.jar",
-          "url": "liquidglass-theme-0.1.0-sources.jar",
+          "name": "liquidglass-theme-0.3.0-sources.jar",
+          "url": "liquidglass-theme-0.3.0-sources.jar",
           "size": 4421,
           "sha512": "9f301b7110db251b9312dce713525b75bb3320f36afe9d4c94862caeab4f9f9b81079acaed91e066cc1bc9efe5a49624ac99b9ccb755efafc7582d611c75f758",
           "sha256": "dcc868e33266557d411cbee016ddeb9fff5ca9c823666c56ae74cd3da57cfe87",

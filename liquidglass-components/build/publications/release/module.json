@@ -3,7 +3,7 @@
   "component": {
     "group": "com.github.sengleaph",
     "module": "liquidglass-components",
-    "version": "0.1.0",
+    "version": "0.3.0",
     "attributes": {
       "org.gradle.status": "release"
     }
@@ -27,14 +27,14 @@
           "group": "com.github.sengleaph",
           "module": "liquidglass-core",
           "version": {
-            "requires": "0.1.0"
+            "requires": "0.3.0"
           }
         },
         {
           "group": "com.github.sengleaph",
           "module": "liquidglass-theme",
           "version": {
-            "requires": "0.1.0"
+            "requires": "0.3.0"
           }
         },
         {
@@ -74,8 +74,8 @@
       ],
       "files": [
         {
-          "name": "liquidglass-components-0.1.0.aar",
-          "url": "liquidglass-components-0.1.0.aar",
+          "name": "liquidglass-components-0.3.0.aar",
+          "url": "liquidglass-components-0.3.0.aar",
           "size": 81477,
           "sha512": "9060c5c93b5e7991dcfe8d0434c06c5fe0c9f2ef43ab715459d99c7c8cbc5eaba5d0dcfd8972cd0a60a08934fe1240fe6367dcc5c36e1bc42d341166e3f006ec",
           "sha256": "b08a4958beef55b69bcf8d478857f34db401b6b8618300146d51342b8664a499",
@@ -111,14 +111,14 @@
           "group": "com.github.sengleaph",
           "module": "liquidglass-core",
           "version": {
-            "requires": "0.1.0"
+            "requires": "0.3.0"
           }
         },
         {
           "group": "com.github.sengleaph",
           "module": "liquidglass-theme",
           "version": {
-            "requires": "0.1.0"
+            "requires": "0.3.0"
           }
         },
         {
@@ -158,8 +158,8 @@
       ],
       "files": [
         {
-          "name": "liquidglass-components-0.1.0.aar",
-          "url": "liquidglass-components-0.1.0.aar",
+          "name": "liquidglass-components-0.3.0.aar",
+          "url": "liquidglass-components-0.3.0.aar",
           "size": 81477,
           "sha512": "9060c5c93b5e7991dcfe8d0434c06c5fe0c9f2ef43ab715459d99c7c8cbc5eaba5d0dcfd8972cd0a60a08934fe1240fe6367dcc5c36e1bc42d341166e3f006ec",
           "sha256": "b08a4958beef55b69bcf8d478857f34db401b6b8618300146d51342b8664a499",
@@ -178,8 +178,8 @@
       },
       "files": [
         {
-          "name": "liquidglass-components-0.1.0-sources.jar",
-          "url": "liquidglass-components-0.1.0-sources.jar",
+          "name": "liquidglass-components-0.3.0-sources.jar",
+          "url": "liquidglass-components-0.3.0-sources.jar",
           "size": 16518,
           "sha512": "925194106afb9cd8992976083c27352018ef50fbb3b530f4e11a0aae2b62b32f3ad971b5460b51a954a6e591ba73ea7ec4e2e9e7ab33004765811bd32a991daa",
           "sha256": "3a28c33e828d3069f540560e2e2ed223b2088094b3ec294192a9c2841b3579ef",

@@ -1,15 +1,24 @@
+# Gradle
+.gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+# Kotlin compiler cache
+.kotlin/
+
+# Android Studio / IntelliJ
 *.iml
-.gradle
-/local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
-.DS_Store
-/build
-/captures
+.idea/
+local.properties
+
+# Native
 .externalNativeBuild
 .cxx
-local.properties
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Misc
+/captures

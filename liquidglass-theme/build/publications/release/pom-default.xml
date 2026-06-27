@@ -9,7 +9,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.github.sengleaph</groupId>
   <artifactId>liquidglass-theme</artifactId>
-  <version>0.1.0</version>
+  <version>0.3.0</version>
   <packaging>aar</packaging>
   <dependencyManagement>
     <dependencies>
@@ -26,7 +26,7 @@
     <dependency>
       <groupId>com.github.sengleaph</groupId>
       <artifactId>liquidglass-core</artifactId>
-      <version>0.1.0</version>
+      <version>0.3.0</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
