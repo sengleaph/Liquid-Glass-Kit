@@ -45,7 +45,7 @@ afterEvaluate {
                 from(components["release"])
                 groupId = "com.github.sengleaph"
                 artifactId = project.name                  // -> "liquidglass"
-                version = System.getenv("VERSION") ?: "0.1.0"
+                version = System.getenv("VERSION") ?: "0.3.0"
             }
         }
     }
